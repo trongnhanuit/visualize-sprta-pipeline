@@ -106,8 +106,7 @@ pipeline {
                         exit
                         EOF
                         """
-        			mkdir -p {LOCAL_OUT_DIR}
-        			sh "scp -r ${NCI_ALIAS}:${OUT_DIR}/* ${LOCAL_OUT_DIR}"
+        			sh "mkdir -p {LOCAL_OUT_DIR} && scp -r ${NCI_ALIAS}:${OUT_DIR}/* ${LOCAL_OUT_DIR}"
                 }
             }
         }
