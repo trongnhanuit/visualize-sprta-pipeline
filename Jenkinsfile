@@ -12,6 +12,7 @@ properties([
         booleanParam(defaultValue: false, description: 'Infer ML trees?', name: 'INFER_TREE'),
         booleanParam(defaultValue: false, description: 'Compute SPRTA by CMAPLE?', name: 'COMPUTE_SPRTA_CMAPLE'),
         booleanParam(defaultValue: false, description: 'Compute SPRTA by MAPLE?', name: 'COMPUTE_SPRTA_MAPLE'),
+        booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
     ])
 ])
 pipeline {
@@ -98,6 +99,15 @@ pipeline {
                         EOF
                         """
                 	sh "scp -r scripts/* ${NCI_ALIAS}:${SCRIPTS_DIR}"
+                	if (params.REMOVE_OUTPUT) {
+                		sh """
+                        ssh ${NCI_ALIAS} << EOF
+                        rm -f ${OUT_DIR}/*
+                        exit
+                        EOF
+                        """
+                        sh "rm -f {LOCAL_OUT_DIR}/*"
+                	}
                     sh """
                         ssh ${NCI_ALIAS} << EOF
                                               
