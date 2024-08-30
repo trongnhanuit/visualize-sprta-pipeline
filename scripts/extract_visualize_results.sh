@@ -8,7 +8,8 @@ MAPLE_SPRTA_TREE_PREFIX=$4 # The prefix of trees with SPRTA computed by MAPLE
 
 
 ### pre steps #####
-
+module load python3/3.9.2
+chmod +x ${PYTHON_SCRIPT_PATH}
 
 
 ############
