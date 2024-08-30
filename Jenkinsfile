@@ -105,6 +105,7 @@ pipeline {
                         exit
                         EOF
                         """
+        			sh "scp -r ${NCI_ALIAS}:${OUT_DIR}/* output/"
                 }
             }
         }
