@@ -29,7 +29,9 @@ def extract_SPRTA_scores(input_file_path):
 def plot_SPRTA_scores(MAPLE_scores, CMAPLE_scores, output_file_path):
 
 	# Draw a scatter plot
-	plt.scatter(MAPLE_scores, CMAPLE_scores, color='blue', marker='o')
+	plt.scatter(MAPLE_scores, CMAPLE_scores, color='red', marker='o')
+	# draw a diagonal line
+	plt.plot([0, 1], [0, 1], color='blue', linestyle='--', linewidth=2)
 	# Labeling the axes
 	plt.xlabel('MAPLE')
 	plt.ylabel('CMAPLE')
