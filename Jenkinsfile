@@ -116,8 +116,6 @@ pipeline {
                         cd  ${WORKING_DIR}
                         echo "Files in ${WORKING_DIR}"
                         ls -ila ${WORKING_DIR}
-                        echo "Files in ${ALN_DIR}"
-                        ls -ila ${ALN_DIR}
                         echo "Files in ${TREE_DIR}"
                         ls -ila ${TREE_DIR}
                         echo "Files in ${OUT_DIR}"
