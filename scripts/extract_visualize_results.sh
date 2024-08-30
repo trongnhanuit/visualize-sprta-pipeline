@@ -18,7 +18,7 @@ mkdir -p ${OUT_DIR}
 for tree_path in "${TREE_DIR}"/${MAPLE_SPRTA_TREE_PREFIX}*_nexusTree.tree; do
 	tree=$(basename "$tree_path")
     echo "Extract results from ${tree} and visualize them to ${OUT_DIR}/${tree}.png"
-    echo "cd ${OUT_DIR} && python3 ${PYTHON_SCRIPT_PATH} --input ${TREE_DIR}/${tree} --output${OUT_DIR}/${tree}"
-    cd ${OUT_DIR} && python3 ${PYTHON_SCRIPT_PATH} --input ${TREE_DIR}/${tree} --output${OUT_DIR}/${tree}
+    echo "cd ${OUT_DIR} && python3 ${PYTHON_SCRIPT_PATH} --input ${TREE_DIR}/${tree} --output ${OUT_DIR}/${tree}"
+    cd ${OUT_DIR} && python3 ${PYTHON_SCRIPT_PATH} --input ${TREE_DIR}/${tree} --output ${OUT_DIR}/${tree}
 done
                         
