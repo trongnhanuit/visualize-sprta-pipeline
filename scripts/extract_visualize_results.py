@@ -20,13 +20,14 @@ def extract_SPRTA_scores(input_file_path):
 	# Process and store each pair of values in the respective arrays
 	for match in matches:
 		MAPLE_score, CMAPLE_score = match
-		MAPLE_scores.append(float(support))
-		CMAPLE_scores.append(float(iqsupport))
+		MAPLE_scores.append(float(MAPLE_score))
+		CMAPLE_scores.append(float(CMAPLE_score))
 	
 	return MAPLE_scores, CMAPLE_scores
 
 
 def plot_SPRTA_scores(MAPLE_scores, CMAPLE_scores, output_file_path):
+
 	# Draw a scatter plot
 	plt.scatter(MAPLE_scores, CMAPLE_scores, color='blue', marker='o')
 	# Labeling the axes
@@ -38,10 +39,17 @@ def plot_SPRTA_scores(MAPLE_scores, CMAPLE_scores, output_file_path):
 	# Title of the plot
 	plt.title('Scatter Plot of SPRTA computed by MAPLE and CMAPLE')
 	# Save the plot to the output file
-	plt.savefig(output_file_path)
+	plt.savefig(output_file_path + ".png")
 	# Optional: Clear the current plot if you plan to create another plot
 	plt.clf()
-	print(f"Scatter plot saved to {output_file_path}")
+
+	# Write SPRTA computed by MAPLE and CMAPLE to a file
+	with open(output_file_path + ".txt", 'w') as data_file:
+		data_file.write("MAPLE,CMAPLE\n")
+		for MAPLE_score, CMAPLE_score in zip(MAPLE_scores, CMAPLE_scores):
+			data_file.write(f"{MAPLE_score},{CMAPLE_score}\n")
+
+	print(f"Scatter plot saved to {output_file_path}.png and {output_file_path}.txt")
 
 def main():
 	# input params
