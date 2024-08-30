@@ -22,6 +22,7 @@ pipeline {
         DATA_DIR = "${WORKING_DIR}/data"
         TREE_DIR = "${DATA_DIR}/tree"
         OUT_DIR = "${DATA_DIR}/output"
+        LOCAL_OUT_DIR = "/Users/nhan/DATA/tmp/visualize-sprta-pipeline/output"
         SCRIPTS_DIR = "${WORKING_DIR}/scripts"
         MAPLE_SPRTA_TREE_PREFIX = "SPRTA_MAPLE_tree_"
         PYTHON_SCRIPT_PATH = "${SCRIPTS_DIR}/extract_visualize_results.py"
@@ -105,7 +106,8 @@ pipeline {
                         exit
                         EOF
                         """
-        			sh "scp -r ${NCI_ALIAS}:${OUT_DIR}/* output/"
+        			mkdir -p {LOCAL_OUT_DIR}
+        			sh "scp -r ${NCI_ALIAS}:${OUT_DIR}/* ${LOCAL_OUT_DIR}"
                 }
             }
         }
