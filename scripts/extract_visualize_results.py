@@ -7,6 +7,9 @@ def extract_SPRTA_scores(input_file_path):
 	with open(input_file_path, 'r') as file:
 		input_string = file.read()
 
+	# replace None by 999.0
+	input_string = input_string.replace("None","999.0")
+
 	# Regular expression pattern to find all pairs of support and IQsupport values
 	pattern = r'support=(\d+\.\d+).*?IQsupport=(\d+\.\d+)'
 
