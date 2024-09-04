@@ -12,6 +12,7 @@ properties([
         booleanParam(defaultValue: false, description: 'Infer ML trees?', name: 'INFER_TREE'),
         booleanParam(defaultValue: true, description: 'Compute SPRTA by CMAPLE?', name: 'COMPUTE_SPRTA_CMAPLE'),
         booleanParam(defaultValue: true, description: 'Compute SPRTA by MAPLE?', name: 'COMPUTE_SPRTA_MAPLE'),
+        string(name: 'MODEL', defaultValue: 'GTR', description: 'Substitution model'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
     ])
 ])
@@ -51,6 +52,7 @@ pipeline {
                         // trigger jenkins cmaple-tree-inference
                         build job: 'cmaple-tree-inference', parameters: [booleanParam(name: 'DOWNLOAD_DATA', value: DOWNLOAD_DATA),
                         booleanParam(name: 'INFER_TREE', value: INFER_TREE),
+                        string(name: 'MODEL', value: MODEL),
                         ]
                     }
                     else {
@@ -65,7 +67,7 @@ pipeline {
                 	if (params.COMPUTE_SPRTA_CMAPLE) {
                         echo 'Compute SPRTA by CMAPLE'
                         // trigger jenkins cmaple-build
-                        build job: 'cmaple-compute-sprta', parameters: []
+                        build job: 'cmaple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),]
 
                     }
                     else {
@@ -80,7 +82,7 @@ pipeline {
                 	if (params.COMPUTE_SPRTA_MAPLE) {
                         echo 'Compute SPRTA by MAPLE'
                         // trigger jenkins maple-compute-sprta
-                        build job: 'maple-compute-sprta', parameters: []
+                        build job: 'maple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),]
 
                     }
                     else {
