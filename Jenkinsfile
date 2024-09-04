@@ -12,7 +12,7 @@ properties([
         booleanParam(defaultValue: false, description: 'Infer ML trees?', name: 'INFER_TREE'),
         booleanParam(defaultValue: true, description: 'Compute SPRTA by CMAPLE?', name: 'COMPUTE_SPRTA_CMAPLE'),
         booleanParam(defaultValue: true, description: 'Compute SPRTA by MAPLE?', name: 'COMPUTE_SPRTA_MAPLE'),
-        string(name: 'MODEL', defaultValue: 'GTR', description: 'Substitution model'),
+        string(name: 'MODEL', defaultValue: 'JC', description: 'Substitution model'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
     ])
 ])
