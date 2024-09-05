@@ -13,6 +13,7 @@ properties([
         booleanParam(defaultValue: true, description: 'Compute SPRTA by CMAPLE?', name: 'COMPUTE_SPRTA_CMAPLE'),
         booleanParam(defaultValue: true, description: 'Compute SPRTA by MAPLE?', name: 'COMPUTE_SPRTA_MAPLE'),
         string(name: 'MODEL', defaultValue: 'JC', description: 'Substitution model'),
+        booleanParam(defaultValue: false, description: 'Blengths fixed?', name: 'BLENGTHS_FIXED'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
     ])
 ])
@@ -67,8 +68,8 @@ pipeline {
                 	if (params.COMPUTE_SPRTA_CMAPLE) {
                         echo 'Compute SPRTA by CMAPLE'
                         // trigger jenkins cmaple-build
-                        build job: 'cmaple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),]
-
+                        build job: 'cmaple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
+                        booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),]
                     }
                     else {
                         echo 'Skip computing SPRTA by CMAPLE'
