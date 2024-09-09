@@ -83,7 +83,8 @@ pipeline {
                 	if (params.COMPUTE_SPRTA_MAPLE) {
                         echo 'Compute SPRTA by MAPLE'
                         // trigger jenkins maple-compute-sprta
-                        build job: 'maple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),]
+                        build job: 'maple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
+                        booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),]
 
                     }
                     else {
