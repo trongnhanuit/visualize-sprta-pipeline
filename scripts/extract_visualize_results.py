@@ -53,9 +53,9 @@ def plot_SPRTA_scores(MAPLE_scores, CMAPLE_scores, output_file_path):
 		data_file.write("MAPLE,CMAPLE,30_percent_diff\n")
 		for MAPLE_score, CMAPLE_score in zip(MAPLE_scores, CMAPLE_scores):
 			if (CMAPLE_score) <= 1 and (abs(MAPLE_score - CMAPLE_score) >= 0.3):
-				data_file.write(f"{MAPLE_score},{CMAPLE_score},'YES'\n")
+				data_file.write(f"{MAPLE_score},{CMAPLE_score},YES\n")
 			else:
-				data_file.write(f"{MAPLE_score},{CMAPLE_score},' '\n")
+				data_file.write(f"{MAPLE_score},{CMAPLE_score}, \n")
 
 	print(f"Scatter plot saved to {output_file_path}.png and {output_file_path}.txt")
 
