@@ -52,7 +52,7 @@ def plot_SPRTA_scores(MAPLE_scores, CMAPLE_scores, output_file_path):
 	with open(output_file_path + ".txt", 'w') as data_file:
 		data_file.write("MAPLE,CMAPLE,30_percent_diff\n")
 		for MAPLE_score, CMAPLE_score in zip(MAPLE_scores, CMAPLE_scores):
-			if (CMAPLE_scores) <= 1 and (abs(MAPLE_scores - CMAPLE_scores) >= 0.3):
+			if (CMAPLE_score) <= 1 and (abs(MAPLE_score - CMAPLE_score) >= 0.3):
 				data_file.write(f"{MAPLE_score},{CMAPLE_score},'YES'\n")
 			else:
 				data_file.write(f"{MAPLE_score},{CMAPLE_score},' '\n")
