@@ -129,7 +129,7 @@ pipeline {
             steps {
                 script {
                 	sh """
-                        ssh ${NCI_ALIAS} << EOF
+                        ssh -tt ${NCI_ALIAS} << EOF
                         cd  ${WORKING_DIR}
                         echo "Files in ${WORKING_DIR}"
                         ls -ila ${WORKING_DIR}
