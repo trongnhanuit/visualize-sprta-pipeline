@@ -15,12 +15,14 @@ properties([
         string(name: 'MODEL', defaultValue: 'JC', description: 'Substitution model'),
         booleanParam(defaultValue: false, description: 'Blengths fixed?', name: 'BLENGTHS_FIXED'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
+        booleanParam(defaultValue: false, description: 'Use CIBIV cluster?', name: 'USE_CIBIV'),
     ])
 ])
 pipeline {
     agent any
     environment {
         NCI_ALIAS = "gadi"
+        SSH_COMP_NODE = ""
         WORKING_DIR = "/scratch/dx61/tl8625/cmaple/ci-cd"
         DATA_DIR = "${WORKING_DIR}/data"
         TREE_DIR = "${DATA_DIR}/tree"
@@ -31,13 +33,32 @@ pipeline {
         PYTHON_SCRIPT_PATH = "${SCRIPTS_DIR}/extract_visualize_results.py"
     }
     stages {
+        stage('Init variables') {
+            steps {
+                script {
+                    if (params.USE_CIBIV) {
+                        NCI_ALIAS = "eingang"
+                        SSH_COMP_NODE = " ssh -tt cox "
+                        WORKING_DIR = "/project/AliSim/cmaple"
+                        
+                        DATA_DIR = "${WORKING_DIR}/data"
+                        TREE_DIR = "${DATA_DIR}/tree"
+                        OUT_DIR = "${DATA_DIR}/output"
+                        LOCAL_OUT_DIR = "/Users/nhan/DATA/tmp/visualize-sprta-pipeline/output"
+                        SCRIPTS_DIR = "${WORKING_DIR}/scripts"
+                        PYTHON_SCRIPT_PATH = "${SCRIPTS_DIR}/extract_visualize_results.py" 
+                    }
+                }
+            }
+        }
     	stage("Build CMAPLE") {
             steps {
                 script {
                 	if (params.BUILD_CMAPLE) {
                         echo 'Building CMAPLE'
                         // trigger jenkins cmaple-build
-                        build job: 'cmaple-build', parameters: [string(name: 'BRANCH', value: CMAPLE_BRANCH)]
+                        build job: 'cmaple-build', parameters: [string(name: 'BRANCH', value: CMAPLE_BRANCH),
+                        booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),]
 
                     }
                     else {
@@ -54,6 +75,7 @@ pipeline {
                         build job: 'cmaple-tree-inference', parameters: [booleanParam(name: 'DOWNLOAD_DATA', value: DOWNLOAD_DATA),
                         booleanParam(name: 'INFER_TREE', value: INFER_TREE),
                         string(name: 'MODEL', value: MODEL),
+                        booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
                         ]
                     }
                     else {
@@ -69,7 +91,8 @@ pipeline {
                         echo 'Compute SPRTA by CMAPLE'
                         // trigger jenkins cmaple-build
                         build job: 'cmaple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
-                        booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),]
+                        booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
+                        booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),]
                     }
                     else {
                         echo 'Skip computing SPRTA by CMAPLE'
@@ -84,7 +107,8 @@ pipeline {
                         echo 'Compute SPRTA by MAPLE'
                         // trigger jenkins maple-compute-sprta
                         build job: 'maple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
-                        booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),]
+                        booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
+                        booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),]
 
                     }
                     else {
@@ -113,7 +137,7 @@ pipeline {
                         sh "rm -f {LOCAL_OUT_DIR}/*"
                 	}
                     sh """
-                        ssh ${NCI_ALIAS} << EOF
+                        ssh ${NCI_ALIAS} ${SSH_COMP_NODE}<< EOF
                                               
                         sh ${SCRIPTS_DIR}/extract_visualize_results.sh ${PYTHON_SCRIPT_PATH} ${TREE_DIR} ${OUT_DIR} ${MAPLE_SPRTA_TREE_PREFIX} 
                         
