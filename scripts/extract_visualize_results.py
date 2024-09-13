@@ -1,6 +1,7 @@
 import argparse
 import re
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 
 def extract_SPRTA_scores(input_file_path):
 	# Read the content of the text file
