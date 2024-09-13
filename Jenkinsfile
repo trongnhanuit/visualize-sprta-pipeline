@@ -121,7 +121,7 @@ pipeline {
             steps {
                 script {
                 	sh """
-                        ssh ${NCI_ALIAS} << EOF
+                        ssh -tt ${NCI_ALIAS} << EOF
                         mkdir -p ${SCRIPTS_DIR}
                         exit
                         EOF
@@ -129,7 +129,7 @@ pipeline {
                 	sh "scp -r scripts/* ${NCI_ALIAS}:${SCRIPTS_DIR}"
                 	if (params.REMOVE_OUTPUT) {
                 		sh """
-                        ssh ${NCI_ALIAS} << EOF
+                        ssh -tt ${NCI_ALIAS} << EOF
                         rm -f ${OUT_DIR}/*
                         exit
                         EOF
@@ -137,7 +137,7 @@ pipeline {
                         sh "rm -f {LOCAL_OUT_DIR}/*"
                 	}
                     sh """
-                        ssh ${NCI_ALIAS} ${SSH_COMP_NODE}<< EOF
+                        ssh -tt ${NCI_ALIAS} ${SSH_COMP_NODE}<< EOF
                                               
                         sh ${SCRIPTS_DIR}/extract_visualize_results.sh ${PYTHON_SCRIPT_PATH} ${TREE_DIR} ${OUT_DIR} ${MAPLE_SPRTA_TREE_PREFIX} 
                         
@@ -180,5 +180,5 @@ pipeline {
 
 def void cleanWs() {
     // ssh to NCI_ALIAS and remove the working directory
-    // sh "ssh ${NCI_ALIAS} 'rm -rf ${REPO_DIR} ${BUILD_SCRIPTS}'"
+    // sh "ssh -tt ${NCI_ALIAS} 'rm -rf ${REPO_DIR} ${BUILD_SCRIPTS}'"
 }
