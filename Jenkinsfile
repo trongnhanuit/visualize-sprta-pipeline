@@ -14,7 +14,7 @@ properties([
         booleanParam(defaultValue: true, description: 'Compute SPRTA by MAPLE?', name: 'COMPUTE_SPRTA_MAPLE'),
         string(name: 'MODEL', defaultValue: 'JC', description: 'Substitution model'),
         booleanParam(defaultValue: false, description: 'Blengths fixed?', name: 'BLENGTHS_FIXED'),
-        booleanParam(defaultValue: true, description: 'Print SPRTA for less-informative sequences?', name: 'PRINT_LESS_INFO_SEQS'),
+        booleanParam(defaultValue: true, description: 'Compute supports for branches with a length of zero?', name: 'ZERO_LENGTH_BRANCHES'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
         booleanParam(defaultValue: false, description: 'Use CIBIV cluster?', name: 'USE_CIBIV'),
     ])
@@ -94,7 +94,7 @@ pipeline {
                         build job: 'cmaple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
                         booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
-                        booleanParam(name: 'PRINT_LESS_INFO_SEQS', value: PRINT_LESS_INFO_SEQS),]
+                        booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),]
                     }
                     else {
                         echo 'Skip computing SPRTA by CMAPLE'
@@ -111,7 +111,7 @@ pipeline {
                         build job: 'maple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
                         booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
-                        booleanParam(name: 'PRINT_LESS_INFO_SEQS', value: PRINT_LESS_INFO_SEQS),]
+                        booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),]
 
                     }
                     else {
