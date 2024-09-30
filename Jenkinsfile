@@ -14,6 +14,7 @@ properties([
         booleanParam(defaultValue: true, description: 'Compute SPRTA by MAPLE?', name: 'COMPUTE_SPRTA_MAPLE'),
         string(name: 'MODEL', defaultValue: 'JC', description: 'Substitution model'),
         booleanParam(defaultValue: false, description: 'Blengths fixed?', name: 'BLENGTHS_FIXED'),
+        booleanParam(defaultValue: true, description: 'Do not reroot?', name: 'NOT_REROOT'),
         booleanParam(defaultValue: true, description: 'Compute supports for branches with a length of zero?', name: 'ZERO_LENGTH_BRANCHES'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
         booleanParam(defaultValue: false, description: 'Use CIBIV cluster?', name: 'USE_CIBIV'),
@@ -93,6 +94,7 @@ pipeline {
                         // trigger jenkins cmaple-build
                         build job: 'cmaple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
                         booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
+                        booleanParam(name: 'NOT_REROOT', value: NOT_REROOT),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
                         booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),]
                     }
@@ -110,6 +112,7 @@ pipeline {
                         // trigger jenkins maple-compute-sprta
                         build job: 'maple-compute-sprta', parameters: [string(name: 'MODEL', value: MODEL),
                         booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
+                        booleanParam(name: 'NOT_REROOT', value: NOT_REROOT),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
                         booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),]
 
