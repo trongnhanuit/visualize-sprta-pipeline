@@ -132,7 +132,7 @@ pipeline {
                         exit
                         EOF
                         """
-                	sh "rsync -avz --include="*/*" scripts/ ${NCI_ALIAS}:${SCRIPTS_DIR}"
+                	sh "rsync -avz --include=\"*/*\" scripts/ ${NCI_ALIAS}:${SCRIPTS_DIR}"
                 	if (params.REMOVE_OUTPUT) {
                 		sh """
                         ssh -tt ${NCI_ALIAS} << EOF
@@ -150,8 +150,8 @@ pipeline {
                         exit
                         EOF
                         """
-        			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include="*/*" ${NCI_ALIAS}:${OUT_DIR}/ ${LOCAL_OUT_DIR}"
-        			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include="*/*" ${NCI_ALIAS}:${TREE_DIR} ${LOCAL_OUT_DIR}"
+        			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include=\"*/*\" ${NCI_ALIAS}:${OUT_DIR}/ ${LOCAL_OUT_DIR}"
+        			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include=\"*/*\" ${NCI_ALIAS}:${TREE_DIR} ${LOCAL_OUT_DIR}"
                 }
             }
         }
