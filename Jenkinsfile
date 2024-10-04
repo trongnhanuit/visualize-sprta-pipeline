@@ -16,6 +16,7 @@ properties([
         booleanParam(defaultValue: false, description: 'Blengths fixed?', name: 'BLENGTHS_FIXED'),
         booleanParam(defaultValue: true, description: 'Do not reroot?', name: 'NOT_REROOT'),
         booleanParam(defaultValue: true, description: 'Compute supports for branches with a length of zero?', name: 'ZERO_LENGTH_BRANCHES'),
+        booleanParam(defaultValue: true, description: 'Output alternative SPRs?', name: 'OUT_ALT_SPR'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
         booleanParam(defaultValue: false, description: 'Use CIBIV cluster?', name: 'USE_CIBIV'),
     ])
@@ -96,7 +97,8 @@ pipeline {
                         booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
                         booleanParam(name: 'NOT_REROOT', value: NOT_REROOT),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
-                        booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),]
+                        booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),
+                        booleanParam(name: 'OUT_ALT_SPR', value: OUT_ALT_SPR),]
                     }
                     else {
                         echo 'Skip computing SPRTA by CMAPLE'
@@ -114,7 +116,8 @@ pipeline {
                         booleanParam(name: 'BLENGTHS_FIXED', value: BLENGTHS_FIXED),
                         booleanParam(name: 'NOT_REROOT', value: NOT_REROOT),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
-                        booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),]
+                        booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),
+                        booleanParam(name: 'OUT_ALT_SPR', value: OUT_ALT_SPR),]
 
                     }
                     else {
@@ -152,6 +155,10 @@ pipeline {
                         """
         			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include=\"*/*\" ${NCI_ALIAS}:${OUT_DIR}/ ${LOCAL_OUT_DIR}"
         			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include=\"*/*\" ${NCI_ALIAS}:${TREE_DIR} ${LOCAL_OUT_DIR}"
+        			if (params.OUT_ALT_SPR)
+        			{
+        				sh "mkdir -p mkdir -p ${LOCAL_OUT_DIR}/tsv && rsync -avz --include=\"*tsv\" ${NCI_ALIAS}:${DATA_DIR}/aln/ ${LOCAL_OUT_DIR}/tsv/"
+        			}
                 }
             }
         }
