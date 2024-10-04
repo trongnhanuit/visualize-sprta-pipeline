@@ -157,7 +157,7 @@ pipeline {
         			sh "mkdir -p {LOCAL_OUT_DIR} && rsync -avz --include=\"*/*\" ${NCI_ALIAS}:${TREE_DIR} ${LOCAL_OUT_DIR}"
         			if (params.OUT_ALT_SPR)
         			{
-        				sh "mkdir -p mkdir -p ${LOCAL_OUT_DIR}/tsv && rsync -avz --include=\"*tsv\" ${NCI_ALIAS}:${DATA_DIR}/aln/ ${LOCAL_OUT_DIR}/tsv/"
+        				sh "mkdir -p mkdir -p ${LOCAL_OUT_DIR}/tsv && rsync -avz --include=\"*tsv\" --exclude=\"*\" ${NCI_ALIAS}:${DATA_DIR}/aln/ ${LOCAL_OUT_DIR}/tsv/"
         			}
                 }
             }
