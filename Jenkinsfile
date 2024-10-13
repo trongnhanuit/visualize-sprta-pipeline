@@ -17,6 +17,7 @@ properties([
         booleanParam(defaultValue: true, description: 'Do not reroot?', name: 'NOT_REROOT'),
         booleanParam(defaultValue: true, description: 'Compute supports for branches with a length of zero?', name: 'ZERO_LENGTH_BRANCHES'),
         booleanParam(defaultValue: true, description: 'Output alternative SPRs?', name: 'OUT_ALT_SPR'),
+        booleanParam(defaultValue: true, description: 'Use local references in MAPLE?', name: 'MAPLE_LOCAL_REFS'),
         booleanParam(defaultValue: true, description: 'Remove all exiting output files?', name: 'REMOVE_OUTPUT'),
         booleanParam(defaultValue: false, description: 'Use CIBIV cluster?', name: 'USE_CIBIV'),
     ])
@@ -117,7 +118,8 @@ pipeline {
                         booleanParam(name: 'NOT_REROOT', value: NOT_REROOT),
                         booleanParam(name: 'USE_CIBIV', value: USE_CIBIV),
                         booleanParam(name: 'ZERO_LENGTH_BRANCHES', value: ZERO_LENGTH_BRANCHES),
-                        booleanParam(name: 'OUT_ALT_SPR', value: OUT_ALT_SPR),]
+                        booleanParam(name: 'OUT_ALT_SPR', value: OUT_ALT_SPR),
+                        booleanParam(name: 'MAPLE_LOCAL_REFS', value: MAPLE_LOCAL_REFS),]
 
                     }
                     else {
